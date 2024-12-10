@@ -1,0 +1,923 @@
+kiosk_mode:
+  hide_header: true
+views:
+  - type: masonry
+    path: home
+    title: Home
+    cards:
+      - type: custom:mushroom-template-card
+        primary: |-
+          {% set time = now().hour %}
+          {% if (time >= 18) %}
+            Good Evening, {{user}}!
+          {% elif (time >= 12) %}
+            Good Afternoon, {{user}}!
+          {% elif (time >= 5) %}
+            Good Morning, {{user}}!
+          {% else %}
+            Hello, {{user}}!
+          {% endif %}
+        secondary: |-
+          {% set time = now().weekday() %}
+          {% if (time == 0) %}
+          Today is Monday, {{ now().strftime("%Y.%m.%d")}}
+          {% elif (time == 1) %}
+          Today is Tuesday, {{ now().strftime("%Y.%m.%d")}}
+          {% elif (time == 2) %}
+          Today is Wednesday, {{ now().strftime("%Y.%m.%d")}}
+          {% elif (time == 3) %}
+          Today is Thursday, {{ now().strftime("%Y.%m.%d")}}
+          {% elif (time == 4) %}
+          Today is Friday, {{ now().strftime("%Y-%m-%d")}}
+          {% elif (time == 5) %}
+          Today is Saturday, {{ now().strftime("%Y.%m.%d")}}
+          {% elif (time == 6) %}
+          Today is Sunday, {{ now().strftime("%Y.%m.%d")}}
+          {% else %}
+          Today is the lucky day...
+          {% endif %}
+        icon: ''
+        fill_container: false
+        tap_action:
+          action: none
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-person-card
+            entity: person.admin
+            name: 陳冠瑜
+            icon: mdi:face-man-shimmer
+          - type: custom:mushroom-person-card
+            entity: person.littleeye
+            name: 郭鈺婷
+            icon: mdi:face-woman
+          - type: custom:mushroom-person-card
+            entity: person.belle
+            name: 陳心蓓
+            icon: mdi:face-woman
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: House
+            secondary: ''
+            icon: mdi:home
+            icon_color: blue
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: house
+          - type: custom:mushroom-template-card
+            primary: Lights
+            secondary: ''
+            icon: mdi:lightbulb
+            icon_color: amber
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: lights
+          - type: custom:mushroom-template-card
+            primary: Security
+            secondary: ''
+            icon: mdi:shield-check
+            icon_color: green
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: security
+          - type: custom:mushroom-template-card
+            primary: Power
+            secondary: ''
+            icon: mdi:power
+            icon_color: purple
+            tap_action:
+              action: navigate
+              navigation_path: power
+            layout: vertical
+          - type: custom:mushroom-template-card
+            primary: Net
+            secondary: ''
+            icon: mdi:network
+            icon_color: red
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: network
+      - type: custom:mushroom-lock-card
+        entity: lock.lock_73f7
+        name: Door Lock
+        tap_action:
+          action: toggle
+      - type: custom:mushroom-title-card
+        title: Lights
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.shu_fang_deng_guang_kai_guan
+            name: Study Lights
+            icon: mdi:notebook-heart-outline
+            use_light_color: true
+            show_brightness_control: true
+            show_color_temp_control: false
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
+            collapsible_controls: false
+          - type: custom:mushroom-light-card
+            entity: light.wo_shi_deng_guang_kai_guan
+            name: Bedroom Lights
+            icon: mdi:notebook-heart-outline
+            use_light_color: true
+            collapsible_controls: false
+            show_brightness_control: true
+            show_color_temp_control: false
+            tap_action:
+              action: toggle
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan
+            layout: vertical
+            icon_color: >-
+              {{ 'red' if is_state('input_boolean.study_fan_switch', 'on') else
+              'green' }}
+            entity: input_boolean.study_fan_switch
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan-chevron-up
+            entity: script.unknown_3
+            layout: vertical
+            icon_color: black
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan-chevron-down
+            entity: script.unknown_4
+            layout: vertical
+            icon_color: black
+        title: Fan
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan
+            layout: vertical
+            icon_color: >-
+              {{ 'red' if is_state('input_boolean.dyson_fan_switch', 'on') else
+              'green' }}
+            entity: input_boolean.dyson_fan_switch
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan-chevron-up
+            entity: script.dyson_2
+            layout: vertical
+            icon_color: black
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan-chevron-down
+            entity: script.dyson_3
+            layout: vertical
+            icon_color: black
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan-auto
+            layout: vertical
+            icon_color: >-
+              {{ 'red' if is_state('input_boolean.dyson_fan_switch_auto', 'on')
+              else 'green' }}
+            entity: input_boolean.dyson_fan_switch_auto
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:rotate-360
+            layout: vertical
+            icon_color: >-
+              {{ 'red' if is_state('input_boolean.dyson_fan_switch_rotate',
+              'on') else 'green' }}
+            entity: input_boolean.dyson_fan_switch_rotate
+        title: Dyson
+      - type: custom:mushroom-title-card
+        title: Rooms
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Bedroom
+            secondary: |
+              {{ states('sensor.hub_2_5f2c') }} °C
+            icon: mdi:bed-double
+            tap_action:
+              action: navigate
+              navigation_path: bedroom
+            hold_action:
+              action: toggle
+            icon_color: |-
+              {% if is_state('light.wo_shi_deng_guang_kai_guan', 'on') %}
+                orange
+              {% endif %}
+            entity: light.wo_shi_deng_guang_kai_guan
+            layout: horizontal
+          - type: custom:mushroom-template-card
+            primary: Study
+            secondary: |
+              {{ states('sensor.hub_2_5f2c') }} °C
+            icon: mdi:book-heart
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mushroom/study
+            hold_action:
+              action: toggle
+            icon_color: |-
+              {% if is_state('light.shu_fang_deng_guang_kai_guan', 'on') %}
+                orange
+              {% endif %}
+            entity: light.shu_fang_deng_guang_kai_guan
+            layout: horizontal
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Living Room
+            secondary: |
+              {{ states('sensor.hub_2_5f2c') }} °C
+            icon: mdi:sofa
+            tap_action:
+              action: navigate
+              navigation_path: livingroom
+            hold_action:
+              action: toggle
+            icon_color: |-
+              {% if is_state('light.fang_zi_deng_guang_kai_guan', 'on') %}
+
+              {% endif %}
+            layout: horizontal
+          - type: custom:mushroom-template-card
+            primary: Kitchen
+            secondary: |
+              {{ states('sensor.hub_2_5f2c') }} °C
+            icon: mdi:coffee
+            tap_action:
+              action: navigate
+              navigation_path: kitchen
+            hold_action:
+              action: toggle
+            icon_color: |-
+              {% if is_state('light.wo_shi_deng_guang_kai_guan', 'on') %}
+
+              {% endif %}
+            layout: horizontal
+    badges:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: weather
+            show_conditions: true
+            show_temperature: true
+            entity: weather.forecast_jia
+          - type: entity
+            entity: lock.lock_73f7
+            content_info: state
+            icon_color: green
+            use_entity_picture: false
+          - type: light
+            entity: light.fang_zi_deng_guang_kai_guan
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            use_light_color: true
+        alignment: center
+  - type: masonry
+    title: House
+    path: house
+    subview: false
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+      - type: todo-list
+        entity: todo.shopping_list
+        hide_completed: false
+        theme: Mushroom Shadow
+        title: Shopping List
+  - type: masonry
+    title: Security
+    path: security
+    subview: false
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+      - type: custom:mushroom-lock-card
+        entity: lock.lock_73f7
+        name: Main Lock
+        hold_action:
+          action: more-info
+  - type: masonry
+    path: power
+    title: Power
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+      - type: custom:mushroom-title-card
+        title: Switchs
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |-
+              Dehumidifier /
+              {{ states('sensor.wo_shi_qian_cha_zuo_current_consumption') }} W
+            secondary: >+
+              {{ states('sensor.wo_shi_qian_cha_zuo_this_month_s_consumption')
+              }} kWh/Monthly
+
+            icon: mdi:power-plug
+            tap_action:
+              action: more-info
+            icon_color: |-
+              {% if is_state('switch.wo_shi_qian_cha_zuo', 'on') %}
+                purple
+              {% endif %}
+            entity: switch.wo_shi_qian_cha_zuo
+            layout: horizontal
+            hold_action:
+              action: more-info
+            double_tap_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            primary: >-
+              Study Plug /
+
+              {{ states('sensor.shu_fang_dian_nao_cha_tou_current_consumption')
+              }} W
+            secondary: >+
+              {{
+              states('sensor.shu_fang_dian_nao_cha_tou_this_month_s_consumption')
+              }} kWh/Monthly
+
+            icon: mdi:power-plug
+            tap_action:
+              action: none
+            icon_color: |-
+              {% if is_state('switch.shu_fang_dian_nao_cha_tou', 'on') %}
+                purple
+              {% endif %}
+            layout: horizontal
+            hold_action:
+              action: none
+            entity: switch.shu_fang_dian_nao_cha_tou
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |-
+              Living Left Plug /
+              {{ states('sensor.ke_ting_zuo_cha_zuo_current_consumption') }} W
+            secondary: >+
+              {{ states('sensor.ke_ting_zuo_cha_zuo_this_month_s_consumption')
+              }} kWh/Monthly
+
+            icon: mdi:power-plug
+            tap_action:
+              action: more-info
+            icon_color: |-
+              {% if is_state('switch.ke_ting_zuo_cha_zuo', 'on') %}
+                purple
+              {% endif %}
+            entity: switch.ke_ting_zuo_cha_zuo
+            layout: horizontal
+            hold_action:
+              action: more-info
+            double_tap_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            primary: |
+              Living Right Plug /
+              {{ states('sensor.ke_ting_you_cha_zuo_current_consumption') }} W
+            secondary: >+
+              {{ states('sensor.ke_ting_you_cha_zuo_this_month_s_consumption')
+              }} kWh/Monthly
+
+            icon: mdi:power-plug
+            tap_action:
+              action: more-info
+            icon_color: |-
+              {% if is_state('switch.ke_ting_you_cha_zuo', 'on') %}
+                purple
+              {% endif %}
+            entity: switch.ke_ting_you_cha_zuo
+            layout: horizontal
+            hold_action:
+              action: more-info
+            double_tap_action:
+              action: more-info
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Kitchen Plug
+            secondary: |+
+              {{ states('sensor.plug_mini_8cde_power') }} Wh
+
+            icon: mdi:power-plug
+            tap_action:
+              action: more-info
+            icon_color: |-
+              {% if is_state('switch.plug_mini_8cde', 'on') %}
+                purple
+              {% endif %}
+            entity: switch.plug_mini_8cde
+            layout: horizontal
+            hold_action:
+              action: more-info
+            double_tap_action:
+              action: more-info
+      - type: custom:mushroom-title-card
+        title: Consumption
+      - type: horizontal-stack
+        cards:
+          - graph: line
+            type: sensor
+            entity: sensor.jin_ri_zong_hao_neng
+            detail: 1
+            name: Daily
+          - graph: line
+            type: sensor
+            entity: sensor.ben_yue_zong_hao_neng
+            detail: 1
+            name: 'Monthly '
+            icon: mdi:flash-outline
+  - type: masonry
+    path: lights
+    title: Lights
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+      - type: custom:mushroom-template-card
+        primary: Lights On Count
+        secondary: >-
+          {% set domain = 'light' %}
+
+          {% set lightsOnCount = states[domain] | selectattr( 'state', 'eq',
+          'on') | list | count %}
+
+          {{lightsOnCount}}
+        icon: mdi:lightbulb-group
+        icon_color: orange
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.shu_fang_deng_guang_kai_guan
+            name: Study Lights
+            icon: mdi:notebook-heart-outline
+            use_light_color: false
+            show_brightness_control: false
+            show_color_temp_control: false
+            tap_action:
+              action: navigate
+              navigation_path: Study
+            hold_action:
+              action: toggle
+            collapsible_controls: false
+          - type: custom:mushroom-light-card
+            entity: light.wo_shi_deng_guang_kai_guan
+            name: Bedroom Lights
+            icon: mdi:notebook-heart-outline
+            use_light_color: false
+            collapsible_controls: false
+            show_brightness_control: false
+            show_color_temp_control: false
+            tap_action:
+              action: toggle
+  - type: masonry
+    title: Living
+    path: livingroom
+    subview: false
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+      - type: custom:mushroom-title-card
+        title: Living Room
+        subtitle: ''
+      - type: horizontal-stack
+        cards:
+          - graph: line
+            type: sensor
+            entity: sensor.hub_2_5f2c
+            detail: 1
+            name: Temperature
+          - graph: line
+            type: sensor
+            entity: sensor.hub_2_5f2c_humidity
+            detail: 1
+            name: Humidity
+            icon: mdi:water-percent
+      - type: custom:mushroom-title-card
+        title: ''
+        subtitle: Devices
+      - type: custom:mushroom-lock-card
+        entity: lock.lock_73f7
+        name: Main Lock
+        hold_action:
+          action: more-info
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-entity-card
+            entity: switch.yin_xiang
+            icon: mdi:speaker
+            icon_color: green
+            layout: vertical
+          - type: custom:mushroom-media-player-card
+            entity: media_player.sony_fw_49bz35f
+            layout: vertical
+            name: 電視
+          - type: custom:mushroom-entity-card
+            icon: mdi:speaker
+            icon_color: blue
+            layout: vertical
+            entity: switch.leng_qi_2
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Living Left Plug
+            secondary: >+
+              {{ states('sensor.ke_ting_zuo_cha_zuo_this_month_s_consumption')
+              }} kWh/Monthly
+
+            icon: mdi:power-plug
+            tap_action:
+              action: more-info
+            icon_color: |-
+              {% if is_state('switch.ke_ting_zuo_cha_zuo', 'on') %}
+                purple
+              {% endif %}
+            entity: switch.ke_ting_zuo_cha_zuo
+            layout: horizontal
+            hold_action:
+              action: toggle
+          - type: custom:mushroom-template-card
+            primary: Living Right Plug
+            secondary: >+
+              {{ states('sensor.ke_ting_you_cha_zuo_this_month_s_consumption')
+              }} kWh/Monthly
+
+            icon: mdi:power-plug
+            tap_action:
+              action: more-info
+            icon_color: |-
+              {% if is_state('switch.ke_ting_you_cha_zuo', 'on') %}
+                purple
+              {% endif %}
+            entity: switch.ke_ting_you_cha_zuo
+            layout: horizontal
+            hold_action:
+              action: toggle
+          - type: custom:mushroom-template-card
+            primary: Dehumidifier
+            secondary: >+
+              {{ states('sensor.wo_shi_qian_cha_zuo_this_month_s_consumption')
+              }} kWh/Monthly
+
+            icon: mdi:power-plug
+            tap_action:
+              action: more-info
+            icon_color: |-
+              {% if is_state('switch.ke_ting_zuo_cha_zuo', 'on') %}
+                purple
+              {% endif %}
+            entity: sensor.wo_shi_qian_cha_zuo_this_month_s_consumption
+            layout: horizontal
+            hold_action:
+              action: toggle
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan
+            layout: vertical
+            icon_color: >-
+              {{ 'red' if is_state('input_boolean.dyson_fan_switch', 'on') else
+              'green' }}
+            entity: input_boolean.dyson_fan_switch
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan-chevron-up
+            entity: script.dyson_2
+            layout: vertical
+            icon_color: black
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan-chevron-down
+            entity: script.dyson_3
+            layout: vertical
+            icon_color: black
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan-auto
+            layout: vertical
+            icon_color: >-
+              {{ 'red' if is_state('input_boolean.dyson_fan_switch_auto', 'on')
+              else 'green' }}
+            entity: input_boolean.dyson_fan_switch_auto
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:rotate-360
+            layout: vertical
+            icon_color: >-
+              {{ 'red' if is_state('input_boolean.dyson_fan_switch_rotate',
+              'on') else 'green' }}
+            entity: input_boolean.dyson_fan_switch_rotate
+        title: Dyson
+  - type: masonry
+    title: Study
+    path: study
+    subview: false
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+      - type: custom:mushroom-title-card
+        title: Study
+        subtitle: ''
+      - type: horizontal-stack
+        cards:
+          - graph: line
+            type: sensor
+            entity: sensor.hub_2_5f2c
+            detail: 1
+            name: Temperature
+          - graph: line
+            type: sensor
+            entity: sensor.hub_2_5f2c_humidity
+            detail: 1
+            name: Humidity
+            icon: mdi:water-percent
+      - type: custom:mushroom-title-card
+        title: ''
+        subtitle: Devices
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.shu_fang_deng_guang_kai_guan
+            icon: mdi:floor-lamp-torchiere
+            tap_action:
+              action: toggle
+            use_light_color: true
+            show_brightness_control: true
+            show_color_temp_control: true
+            show_color_control: true
+            collapsible_controls: false
+            name: Study Main Light
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Study Plug
+            secondary: >+
+              {{
+              states('sensor.shu_fang_dian_nao_cha_tou_this_month_s_consumption')
+              }} kWh/Monthly
+
+            icon: mdi:power-plug
+            tap_action:
+              action: none
+            icon_color: |-
+              {% if is_state('switch.shu_fang_dian_nao_cha_tou', 'on') %}
+                purple
+              {% endif %}
+            layout: horizontal
+            hold_action:
+              action: none
+            entity: switch.shu_fang_dian_nao_cha_tou
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan
+            layout: vertical
+            icon_color: >-
+              {{ 'red' if is_state('input_boolean.study_fan_switch', 'on') else
+              'green' }}
+            entity: input_boolean.study_fan_switch
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan-chevron-up
+            entity: script.unknown_3
+            layout: vertical
+            icon_color: black
+          - type: custom:mushroom-template-card
+            primary: ''
+            secondary: ''
+            icon: mdi:fan-chevron-down
+            entity: script.unknown_4
+            layout: vertical
+            icon_color: black
+        title: Fan
+  - type: masonry
+    title: Bedroom
+    path: bedroom
+    subview: false
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+      - type: custom:mushroom-title-card
+        title: Bedroom
+      - type: horizontal-stack
+        cards:
+          - graph: line
+            type: sensor
+            entity: sensor.hub_2_5f2c
+            detail: 1
+            name: Temperature
+          - graph: line
+            type: sensor
+            entity: sensor.hub_2_5f2c_humidity
+            detail: 1
+            name: Humidity
+            icon: mdi:water-percent
+      - type: custom:mushroom-title-card
+        title: ''
+        subtitle: Devices
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.wo_shi_deng_guang_kai_guan
+            icon: mdi:ceiling-light-multiple
+            tap_action:
+              action: toggle
+            use_light_color: true
+            show_brightness_control: true
+            show_color_temp_control: true
+            show_color_control: true
+            collapsible_controls: false
+            name: Bedroom Main Lights
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-entity-card
+            layout: vertical
+            entity: binary_sensor.presence_sensor_fp2_7c8b_presence_sensor_2
+            name: 床上
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.presence_sensor_fp2_7c8b_presence_sensor_3
+            layout: vertical
+            name: 浴室
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.presence_sensor_fp2_7c8b_presence_sensor_4
+            layout: vertical
+            name: 鏡子
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.presence_sensor_fp2_7c8b_presence_sensor_5
+            layout: vertical
+            name: 書房
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.presence_sensor_fp2_7c8b_presence_sensor_6
+            layout: vertical
+            name: 書桌
+          - type: custom:mushroom-entity-card
+            layout: vertical
+            entity: binary_sensor.presence_sensor_fp2_7c8b_presence_sensor_7
+            name: 臥室
+  - type: masonry
+    title: net
+    path: network
+    subview: false
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+      - type: custom:mushroom-title-card
+        title: Network Status
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: CPU
+            secondary: |+
+              {{ states('sensor.system_monitor_processor_use') }}%
+
+            icon: mdi:cpu-64-bit
+            icon_color: blue
+            entity: sensor.system_monitor_processor_use
+            layout: vertical
+          - type: custom:mushroom-template-card
+            primary: RAM
+            secondary: |+
+              {{ states('sensor.system_monitor_memory_usage') }}%
+
+            icon: mdi:memory
+            tap_action:
+              action: more-info
+            icon_color: blue
+            entity: sensor.system_monitor_memory_usage
+            layout: vertical
+            hold_action:
+              action: toggle
+          - type: custom:mushroom-template-card
+            primary: Disk
+            secondary: |+
+              {{ states('sensor.system_monitor_disk_usage_config') }}%
+
+            icon: mdi:harddisk
+            tap_action:
+              action: more-info
+            icon_color: blue
+            entity: sensor.system_monitor_disk_usage_config
+            layout: vertical
+            hold_action:
+              action: toggle
+          - type: custom:mushroom-template-card
+            primary: Temp
+            secondary: |+
+              {{ states('sensor.system_monitor_processor_temperature') }} °C
+
+            icon: mdi:temperature-celsius
+            tap_action:
+              action: more-info
+            icon_color: blue
+            entity: sensor.system_monitor_processor_temperature
+            layout: vertical
+            hold_action:
+              action: toggle
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: External IP
+            secondary: |+
+              {{ states('sensor.rt_ax3000_0c38_external_ip')}}
+
+            icon: mdi:ip-network
+            icon_color: green
+            layout: vertical
+          - type: custom:mushroom-template-card
+            primary: WAN Status
+            secondary: |
+              {{ states('sensor.rt_ax3000_0c38_wan_status') }}
+            icon: mdi:wan
+            tap_action:
+              action: more-info
+            icon_color: green
+            layout: vertical
+            hold_action:
+              action: toggle
+          - type: custom:mushroom-template-card
+            primary: Up Time
+            secondary: >
+              {% set uptime = states('sensor.rt_ax3000_0c38_uptime') | int %}
+
+              {{ uptime // 86400 }} 天 {{ (uptime % 86400) // 3600 }} 時 {{
+              (uptime % 3600) // 60 }} 分 {{ uptime % 60 }} 秒
+            icon: mdi:timelapse
+            tap_action:
+              action: more-info
+            icon_color: green
+            layout: vertical
+            hold_action:
+              action: toggle
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |+
+
+              {{ states('sensor.speedtest_upload') }} Mbit/s
+
+            secondary: Download Speed
+            icon: mdi:cloud-download
+            tap_action:
+              action: more-info
+            icon_color: green
+            entity: sensor.speedtest_download
+            layout: horizontal
+            hold_action:
+              action: toggle
+          - type: custom:mushroom-template-card
+            primary: '{{ states(''sensor.speedtest_upload'') }} Mbit/s'
+            secondary: |
+              Upload Speed
+            icon: mdi:cloud-upload
+            tap_action:
+              action: more-info
+            icon_color: green
+            entity: sensor.speedtest_upload
+            layout: horizontal
+            hold_action:
+              action: toggle
+      - type: entities
+        entities:
+          - entity: binary_sensor.backups_stale
+        state_color: true
