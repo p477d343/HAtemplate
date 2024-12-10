@@ -1,5 +1,5 @@
 kiosk_mode:
-  hide_header: true
+  hide_header: false
 views:
   - type: masonry
     path: home
